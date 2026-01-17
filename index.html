@@ -16,22 +16,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #FAFAFA; }
+        body { font-family: 'Poppins', sans-serif; background-color: #FAFAFA; scroll-behavior: smooth; }
         
-        /* Utilities */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Glassmorphism */
+        /* Glassmorphism Navigation */
         .glass { 
             background: rgba(255, 255, 255, 0.95); 
             backdrop-filter: blur(12px); 
             border-bottom: 1px solid rgba(255,255,255,0.5);
         }
 
-        /* Hero Background */
+        /* Hero Background - Updated Link */
         .hero-pattern {
-            background-image: url('background.png');
+            background-image: url('https://i.ibb.co/VW0QQ0nB/background.png');
             background-size: cover;
             background-position: center;
         }
@@ -43,9 +42,8 @@
         .animate-slide-up { animation: slideUp 0.5s ease-out forwards; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Custom Selection Ring */
         .selected-ring { 
-            box-shadow: 0 0 0 4px #f97316; /* orange-500 */
+            box-shadow: 0 0 0 4px #f97316; 
             transform: scale(1.02);
         }
     </style>
@@ -55,109 +53,74 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
+        const { useState, useEffect } = React;
 
         // ==========================================
-        // 1. DATA (Updated Menu Structure)
+        // 1. DATA (With provided Image Links)
         // ==========================================
         const MENU_DB = {
             base: [
-                { id: 'b1', name: 'Samba Rice', price: 50, img: 'images/samba-rice.png' },
-                { id: 'b2', name: 'Red Kekulu', price: 50, img: 'images/red-rice.png' }
+                { id: 'b1', name: 'Samba Rice', price: 50, img: 'https://i.ibb.co/SL4dHKL/samba-rice.png' },
+                { id: 'b2', name: 'Red Kekulu', price: 50, img: 'https://i.ibb.co/PzV4fTGZ/red-rice.png' }
             ],
             veg: [
-                { id: 'v1', name: 'Beetroot', price: 60, img: 'images/beetroot.png' },
-                { id: 'v2', name: 'Jackfruit', price: 60, img: 'images/jackfruit.png' },
-                { id: 'v3', name: 'Green Beans', price: 60, img: 'images/beans.png' },
-                { id: 'v4', name: 'Pumpkin', price: 60, img: 'images/pumpkin.png' }
+                { id: 'v1', name: 'Beetroot', price: 60, img: 'https://i.ibb.co/tPLNZKWf/beetroot.png' },
+                { id: 'v2', name: 'Jackfruit', price: 60, img: 'https://i.ibb.co/hRL4qDkD/jackfruit.png' },
+                { id: 'v3', name: 'Green Beans', price: 60, img: 'https://i.ibb.co/FqX55xYP/beans.png' },
+                { id: 'v4', name: 'Pumpkin', price: 60, img: 'https://i.ibb.co/bV85byk/pumpkin.png' }
             ],
             proteins: [
-                { id: 'p1', name: 'Chicken', price: 150, img: 'images/chicken.png', tags: ['muscle'] },
-                { id: 'p2', name: 'Fish', price: 90, img: 'images/fish.png', tags: ['diet', 'omega'] },
-                { id: 'p3', name: 'Boiled Eggs', price: 50, img: 'images/boil-egg.png', tags: ['budget'] },
-                { id: 'p4', name: 'Fried Eggs', price: 50, img: 'images/fried-egg.png', tags: ['tasty'] }
+                { id: 'p1', name: 'Chicken', price: 150, img: 'https://i.ibb.co/p66B4pSj/chicken.png', tags: ['muscle'] },
+                { id: 'p2', name: 'Fish', price: 90, img: 'https://i.ibb.co/7dc3kC05/fish.png', tags: ['lean'] },
+                { id: 'p3', name: 'Boiled Eggs', price: 50, img: 'https://i.ibb.co/tTTTnkNL/boil-egg.png', tags: ['protein'] },
+                { id: 'p4', name: 'Fried Eggs', price: 50, img: 'https://i.ibb.co/27f6bHB1/fried-egg.png', tags: ['tasty'] }
             ],
             addons: [
-                { id: 'a1', name: 'Dhal', price: 30, img: 'images/dhal.png', tags: ['essential'] },
-                { id: 'a2', name: 'Devilled Potatoes', price: 50, img: 'images/potato.png', tags: ['spicy'] },
-                { id: 'a3', name: 'Soya Meat', price: 40, img: 'images/soya.png', tags: ['vegan'] },
-                { id: 'a4', name: 'Salad', price: 20, img: 'images/salad.png', tags: ['fresh'] },
-                { id: 'a5', name: 'Papadam', price: 10, img: 'images/papadam.png', tags: ['crunch'] }
+                { id: 'a1', name: 'Dhal', price: 30, img: 'https://i.ibb.co/tMQCzcbM/dhal.png' },
+                { id: 'a2', name: 'Devilled Potatoes', price: 50, img: 'https://i.ibb.co/RGM3YDd7/potato.png' },
+                { id: 'a3', name: 'Soya Meat', price: 40, img: 'https://i.ibb.co/p6n7tW8b/soya.png' },
+                { id: 'a4', name: 'Salad', price: 20, img: 'https://i.ibb.co/wr8b6jPG/salad.png' },
+                { id: 'a5', name: 'Papadam', price: 10, img: 'https://i.ibb.co/T5Bkscy/papadam.png' }
             ]
         };
 
         // ==========================================
-        // 2. HELPER COMPONENTS
+        // 2. COMPONENTS
         // ==========================================
         
-        // Massive Logo Component
         const Logo = () => (
-            <div class="relative w-40 h-40 rounded-full border-4 border-orange-500 overflow-hidden shadow-2xl bg-white flex-shrink-0 z-50">
-                <img src="logo.jpeg" alt="Logo" class="w-full h-full object-cover" 
-                     onError={(e) => {e.target.style.display='none'; e.target.parentNode.innerHTML='<div class="w-full h-full flex items-center justify-center bg-orange-500 text-white font-bold text-4xl">S</div>'}} />
+            <div className="relative w-40 h-40 rounded-full border-4 border-orange-500 overflow-hidden shadow-2xl bg-white flex-shrink-0 z-50">
+                <img src="https://i.ibb.co/WN91PFjS/logo.jpg" alt="Suwa Rasa" className="w-full h-full object-cover" />
             </div>
         );
-
-        const SectionTitle = ({ title, subtitle }) => (
-            <div class="text-center mb-12 animate-slide-up">
-                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">{title}</h2>
-                <p class="text-gray-500 max-w-2xl mx-auto">{subtitle}</p>
-                <div class="w-20 h-1 bg-orange-500 mx-auto mt-6 rounded-full"></div>
-            </div>
-        );
-
-        // ==========================================
-        // 3. MAIN UI SECTIONS
-        // ==========================================
 
         const Navbar = ({ cartCount, onOpenCart, onOpenChef }) => (
-            <nav class="fixed top-0 w-full z-50 glass transition-all duration-300 overflow-visible">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between items-center h-24 relative">
-                        
-                        {/* LEFT: LOGO AREA */}
-                        <div class="flex items-center cursor-pointer gap-3" onClick={() => window.scrollTo(0,0)}>
-                            <div class="absolute top-0 left-0 mt-4">
-                                <Logo />
-                            </div>
-                            
-                            <div class="flex flex-col ml-44">
-                                <span class="font-bold text-2xl tracking-tight text-gray-900 leading-none">Suwa<span class="text-orange-500">Rasa</span></span>
-                                <span class="text-[0.65rem] font-bold text-gray-400 tracking-widest uppercase">Authentic Taste</span>
+            <nav className="fixed top-0 w-full z-50 glass transition-all duration-300 overflow-visible">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between items-center h-24 relative">
+                        <div className="flex items-center cursor-pointer gap-3" onClick={() => window.scrollTo({top:0, behavior:'smooth'})}>
+                            <div className="absolute top-0 left-0 mt-4"><Logo /></div>
+                            <div className="flex flex-col ml-44">
+                                <span className="font-bold text-2xl tracking-tight text-gray-900 leading-none">Suwa<span className="text-orange-500">Rasa</span></span>
+                                <span className="text-[0.65rem] font-bold text-gray-400 tracking-widest uppercase">Authentic Taste</span>
                             </div>
                         </div>
                         
-{/* CENTER: NAVIGATION LINKS */}
-<div className="hidden md:flex items-center space-x-8">
-    <a href="index.html" onClick={(e) => { 
-        // Only scroll if already on the home page
-        if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
-            e.preventDefault(); 
-            window.scrollTo({top: 0, behavior: 'smooth'}); 
-        }
-    }} className="text-gray-600 hover:text-orange-500 font-semibold transition duration-200">Home</a>
-    
-    <a href="index.html#build" className="text-gray-600 hover:text-orange-500 font-semibold transition duration-200">Menu</a>
-    
-    <a href="about.html" className="text-gray-600 hover:text-orange-500 font-semibold transition duration-200">About</a>
-    
-    <a href="contact.html" className="text-gray-600 hover:text-orange-500 font-semibold transition duration-200">Contact</a>
-</div>
+                        <div className="hidden md:flex items-center space-x-8">
+                            <a href="index.html" className="text-gray-600 hover:text-orange-500 font-semibold transition duration-200">Home</a>
+                            <a href="#build" className="text-gray-600 hover:text-orange-500 font-semibold transition duration-200">Menu</a>
+                            <a href="about.html" className="text-gray-600 hover:text-orange-500 font-semibold transition duration-200">About</a>
+                            <a href="contact.html" className="text-gray-600 hover:text-orange-500 font-semibold transition duration-200">Contact</a>
+                        </div>
 
-                        {/* RIGHT: ACTIONS */}
-                        <div class="flex items-center gap-4 lg:gap-6">
-                            <button onClick={onOpenChef} class="hidden lg:flex items-center gap-2 bg-gray-100 hover:bg-orange-50 text-gray-700 hover:text-orange-600 px-4 py-2 rounded-full transition font-medium text-sm">
-                                <i class="fas fa-robot"></i> Chef AI
+                        <div className="flex items-center gap-4 lg:gap-6">
+                            <button onClick={onOpenChef} className="hidden lg:flex items-center gap-2 bg-gray-100 hover:bg-orange-50 text-gray-700 hover:text-orange-600 px-4 py-2 rounded-full transition font-medium text-sm">
+                                <i className="fas fa-robot"></i> Chef AI
                             </button>
-                            
-                            <button onClick={onOpenChef} class="lg:hidden w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:text-orange-500">
-                                <i class="fas fa-robot"></i>
-                            </button>
-
-                            <button onClick={onOpenCart} class="relative p-2 rounded-full hover:bg-orange-50 text-gray-600 transition group">
-                                <i class="fas fa-shopping-bag text-2xl group-hover:text-orange-500 transition"></i>
+                            <button onClick={onOpenCart} className="relative p-2 rounded-full hover:bg-orange-50 text-gray-600 transition group">
+                                <i className="fas fa-shopping-bag text-2xl group-hover:text-orange-500 transition"></i>
                                 {cartCount > 0 && (
-                                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white transform scale-110">
+                                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white transform scale-110">
                                         {cartCount}
                                     </span>
                                 )}
@@ -169,47 +132,35 @@
         );
 
         const Hero = ({ onOpenChef }) => (
-            <div class="relative pt-24 pb-16 lg:pt-40 lg:pb-32 overflow-hidden bg-gray-50">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    
-                    {/* Added mt-16 to push text down so it clears the overlapping logo */}
-                    <div class="lg:w-1/2 mt-16 lg:mt-20">
-                        <span class="bg-orange-100 text-orange-600 font-bold px-4 py-2 rounded-full text-xs uppercase tracking-wider inline-block mb-6 shadow-sm">
+            <div className="relative pt-24 pb-16 lg:pt-40 lg:pb-32 overflow-hidden bg-gray-50">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div className="lg:w-1/2 mt-16 lg:mt-20">
+                        <span className="bg-orange-100 text-orange-600 font-bold px-4 py-2 rounded-full text-xs uppercase tracking-wider inline-block mb-6 shadow-sm">
                             🌿 Fresh • Healthy • Homemade
                         </span>
-                        
-                        <h1 class="text-5xl lg:text-7xl font-extrabold text-gray-900 leading-[1.1] mb-8">
+                        <h1 className="text-5xl lg:text-7xl font-extrabold text-gray-900 leading-[1.1] mb-8">
                             Taste the <br/>
-                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">Extraordinary.</span>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">Extraordinary.</span>
                         </h1>
-                        
-                        <p class="text-lg text-gray-500 mb-10 max-w-lg leading-relaxed">
+                        <p className="text-lg text-gray-500 mb-10 max-w-lg leading-relaxed">
                             Custom-built Sri Lankan rice packets delivered to your door. Choose your base, pick your proteins, and select your daily curries.
                         </p>
-                        
-                        <div class="flex space-x-4">
-                            <a href="#build" class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-orange-500/30 transition transform hover:-translate-y-1">
+                        <div className="flex space-x-4">
+                            <a href="#build" className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-orange-500/30 transition transform hover:-translate-y-1">
                                 Build Packet
                             </a>
-                            
-                            <button onClick={onOpenChef} class="bg-white text-gray-700 hover:text-orange-500 px-8 py-4 rounded-full font-bold shadow-md transition border border-gray-100 flex items-center">
-                                <i class="fas fa-magic mr-2 text-orange-400"></i> AI Suggest
+                            <button onClick={onOpenChef} className="bg-white text-gray-700 hover:text-orange-500 px-8 py-4 rounded-full font-bold shadow-md transition border border-gray-100 flex items-center">
+                                <i className="fas fa-magic mr-2 text-orange-400"></i> AI Suggest
                             </button>
                         </div>
                     </div>
                 </div>
-                
-                <div class="absolute top-0 right-0 w-full lg:w-[55%] h-full hero-pattern opacity-100">
-                    <div class="absolute inset-0 bg-gradient-to-r from-gray-50 via-gray-50/80 to-transparent lg:via-gray-50/40"></div>
-                    <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-gray-50 to-transparent"></div>
+                <div className="absolute top-0 right-0 w-full lg:w-[55%] h-full hero-pattern opacity-100">
+                    <div className="absolute inset-0 bg-gradient-to-r from-gray-50 via-gray-50/80 to-transparent lg:via-gray-50/40"></div>
                 </div>
             </div>
         );
 
-        // ==========================================
-        // 4. BUILDER SECTION (The Core Feature)
-        // ==========================================
-        
         const Builder = ({ addToCart, prefillData }) => {
             const [selection, setSelection] = useState({
                 base: MENU_DB.base[0],
@@ -218,26 +169,13 @@
                 addons: []
             });
 
-            // Handle AI Prefill
-            useEffect(() => {
-                if(prefillData) setSelection(prefillData);
-            }, [prefillData]);
+            useEffect(() => { if(prefillData) setSelection(prefillData); }, [prefillData]);
 
-            // Toggle Vegetables (Allow multiple)
-            const toggleVeg = (item) => {
+            const toggleMultiple = (category, item) => {
                 setSelection(prev => {
-                    const exists = prev.veg.find(v => v.id === item.id);
-                    if (exists) return { ...prev, veg: prev.veg.filter(v => v.id !== item.id) };
-                    return { ...prev, veg: [...prev.veg, item] };
-                });
-            };
-
-            // Toggle Addons (Allow multiple)
-            const toggleAddon = (item) => {
-                setSelection(prev => {
-                    const exists = prev.addons.find(a => a.id === item.id);
-                    if (exists) return { ...prev, addons: prev.addons.filter(a => a.id !== item.id) };
-                    return { ...prev, addons: [...prev.addons, item] };
+                    const exists = prev[category].find(i => i.id === item.id);
+                    if (exists) return { ...prev, [category]: prev[category].filter(i => i.id !== item.id) };
+                    return { ...prev, [category]: [...prev[category], item] };
                 });
             };
 
@@ -249,326 +187,114 @@
                 return total;
             };
 
-            const CardItem = ({ item, isSelected, onClick, type }) => (
-                <div onClick={onClick} 
-                     class={`group relative bg-white rounded-3xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 cursor-pointer ${isSelected ? 'selected-ring' : ''}`}>
-                    
-                    <div class="relative h-32 rounded-2xl overflow-hidden mb-3 bg-gray-100">
-                        <img src={item.img} alt={item.name} class="w-full h-full object-cover group-hover:scale-110 transition duration-700" 
-                             onError={(e) => { e.target.src='https://placehold.co/300x300/e2e8f0/64748b?text=No+Image'; }} />
-                        
-                        {isSelected && (
-                            <div class="absolute inset-0 bg-orange-500/20 backdrop-blur-[1px] flex items-center justify-center animate-pulse">
-                                <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white text-lg shadow-lg">
-                                    <i class="fas fa-check"></i>
-                                </div>
-                            </div>
-                        )}
-                        
-                        <div class="absolute top-2 right-2 bg-white/95 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-bold shadow-sm text-gray-800">
-                            Rs. {item.price}
-                        </div>
+            const ItemCard = ({ item, isSelected, onClick }) => (
+                <div onClick={onClick} className={`group bg-white rounded-3xl p-3 shadow-md hover:shadow-xl transition-all border border-gray-100 cursor-pointer ${isSelected ? 'selected-ring' : ''}`}>
+                    <div className="relative h-28 rounded-2xl overflow-hidden mb-2 bg-gray-50">
+                        <img src={item.img} className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+                        <div className="absolute top-2 right-2 bg-white/90 px-2 py-0.5 rounded-full text-[10px] font-bold">Rs.{item.price}</div>
                     </div>
-
-                    <div class="px-1">
-                        <h3 class="font-bold text-md text-gray-900 leading-tight">{item.name}</h3>
-                        {item.tags && (
-                            <div class="flex flex-wrap gap-1 mt-2">
-                                {item.tags.map(t => <span key={t} class="text-[9px] uppercase font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded-md">{t}</span>)}
-                            </div>
-                        )}
-                    </div>
+                    <h3 className="font-bold text-xs text-center text-gray-800">{item.name}</h3>
                 </div>
             );
 
             return (
-                <section id="build" class="py-20 relative">
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <SectionTitle title="Craft Your Meal" subtitle="Select from our 4 categories to build your perfect rice packet." />
-
-                        <div class="flex flex-col lg:flex-row gap-12 items-start">
-                            
-                            {/* Left: Options */}
-                            <div class="flex-1 w-full space-y-12">
-                                
-                                {/* 1. Base */}
-                                <div>
-                                    <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                                        <span class="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center text-sm mr-3">1</span>
-                                        Base <span class="text-xs font-normal text-gray-500 ml-2">(Choose 1)</span>
-                                    </h3>
-                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                        {MENU_DB.base.map(item => (
-                                            <CardItem key={item.id} item={item} isSelected={selection.base?.id === item.id} onClick={() => setSelection({...selection, base: item})} />
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* 2. Vegetables */}
-                                <div>
-                                    <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                                        <span class="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center text-sm mr-3">2</span>
-                                        Vegetables <span class="text-xs font-normal text-gray-500 ml-2">(Select Favorites)</span>
-                                    </h3>
-                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                        {MENU_DB.veg.map(item => (
-                                            <CardItem key={item.id} item={item} isSelected={selection.veg.some(v => v.id === item.id)} onClick={() => toggleVeg(item)} />
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* 3. Proteins */}
-                                <div>
-                                    <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                                        <span class="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center text-sm mr-3">3</span>
-                                        Proteins <span class="text-xs font-normal text-gray-500 ml-2">(Choose 1)</span>
-                                    </h3>
-                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                        {MENU_DB.proteins.map(item => (
-                                            <CardItem key={item.id} item={item} isSelected={selection.protein?.id === item.id} onClick={() => setSelection({...selection, protein: item})} />
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* 4. Addons */}
-                                <div>
-                                    <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                                        <span class="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center text-sm mr-3">4</span>
-                                        Addons <span class="text-xs font-normal text-gray-500 ml-2">(Optional Extras)</span>
-                                    </h3>
-                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                        {MENU_DB.addons.map(item => (
-                                            <CardItem key={item.id} item={item} isSelected={selection.addons.some(a => a.id === item.id)} onClick={() => toggleAddon(item)} />
-                                        ))}
-                                    </div>
+                <section id="build" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-12"><h2 className="text-4xl font-bold mb-4">Craft Your Meal</h2><div className="w-20 h-1 bg-orange-500 mx-auto rounded-full"></div></div>
+                    <div className="flex flex-col lg:flex-row gap-12">
+                        <div className="flex-1 space-y-12">
+                            {/* Base */}
+                            <div>
+                                <h3 className="font-bold text-xl mb-6">1. Select Base</h3>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    {MENU_DB.base.map(i => <ItemCard key={i.id} item={i} isSelected={selection.base?.id === i.id} onClick={() => setSelection({...selection, base:i})} />)}
                                 </div>
                             </div>
-
-                            {/* Right: Sticky Summary Card */}
-                            <div class="lg:w-96 w-full lg:sticky lg:top-28">
-                                <div class="bg-white rounded-[2rem] shadow-2xl p-6 border border-gray-100 relative overflow-hidden">
-                                    <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-orange-500 to-red-500"></div>
-                                    
-                                    <h3 class="text-xl font-bold text-gray-900 mb-6">Your Packet</h3>
-
-                                    <div class="space-y-4 mb-8">
-                                        {/* Base */}
-                                        <div class="flex justify-between items-center pb-2 border-b border-gray-50">
-                                            <div class="flex items-center">
-                                                <div class="w-8 h-8 rounded bg-orange-100 flex items-center justify-center mr-3 text-orange-600 text-xs font-bold">1</div>
-                                                <span class="font-bold text-gray-800 text-sm">{selection.base?.name}</span>
-                                            </div>
-                                            <span class="font-bold text-gray-900">Rs. {selection.base?.price}</span>
-                                        </div>
-
-                                        {/* Veg */}
-                                        {selection.veg.length > 0 && (
-                                            <div class="pb-2 border-b border-gray-50">
-                                                <div class="text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Vegetables</div>
-                                                {selection.veg.map(v => (
-                                                    <div key={v.id} class="flex justify-between items-center text-sm text-gray-600 mb-1 pl-2">
-                                                        <span>{v.name}</span>
-                                                        <span>{v.price}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )}
-
-                                        {/* Protein */}
-                                        <div class="flex justify-between items-center pb-2 border-b border-gray-50">
-                                            <div class="flex items-center">
-                                                <div class="w-8 h-8 rounded bg-orange-100 flex items-center justify-center mr-3 text-orange-600 text-xs font-bold">2</div>
-                                                <span class="font-bold text-gray-800 text-sm">{selection.protein?.name || "No Protein"}</span>
-                                            </div>
-                                            <span class="font-bold text-gray-900">{selection.protein ? `Rs. ${selection.protein.price}` : '-'}</span>
-                                        </div>
-
-                                        {/* Addons */}
-                                        {selection.addons.length > 0 && (
-                                            <div class="pb-2">
-                                                <div class="text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Addons</div>
-                                                {selection.addons.map(a => (
-                                                    <div key={a.id} class="flex justify-between items-center text-sm text-gray-600 mb-1 pl-2">
-                                                        <span>{a.name}</span>
-                                                        <span>{a.price}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    <div class="bg-gray-50 p-4 rounded-xl mb-6 flex justify-between items-center">
-                                        <span class="text-gray-500 font-medium">Total</span>
-                                        <span class="text-2xl font-bold text-gray-900">Rs. {calculateTotal()}</span>
-                                    </div>
-
-                                    <button 
-                                        onClick={() => addToCart(selection, calculateTotal())}
-                                        class="w-full bg-gray-900 hover:bg-orange-500 text-white py-4 rounded-xl font-bold shadow-lg transition duration-300 transform hover:-translate-y-1 flex justify-center items-center gap-2">
-                                        Add to Cart <i class="fas fa-arrow-right"></i>
-                                    </button>
+                            {/* Veg */}
+                            <div>
+                                <h3 className="font-bold text-xl mb-6">2. Vegetables</h3>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    {MENU_DB.veg.map(i => <ItemCard key={i.id} item={i} isSelected={selection.veg.some(v => v.id === i.id)} onClick={() => toggleMultiple('veg', i)} />)}
                                 </div>
                             </div>
+                            {/* Protein */}
+                            <div>
+                                <h3 className="font-bold text-xl mb-6">3. Proteins</h3>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    {MENU_DB.proteins.map(i => <ItemCard key={i.id} item={i} isSelected={selection.protein?.id === i.id} onClick={() => setSelection({...selection, protein:i})} />)}
+                                </div>
+                            </div>
+                            {/* Addons */}
+                            <div>
+                                <h3 className="font-bold text-xl mb-6">4. Add-ons</h3>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    {MENU_DB.addons.map(i => <ItemCard key={i.id} item={i} isSelected={selection.addons.some(a => a.id === i.id)} onClick={() => toggleMultiple('addons', i)} />)}
+                                </div>
+                            </div>
+                        </div>
 
+                        {/* Summary Sticky */}
+                        <div className="lg:w-80 w-full lg:sticky lg:top-28 h-fit">
+                            <div className="bg-white rounded-[2rem] shadow-2xl p-6 border border-gray-100">
+                                <h3 className="text-xl font-bold mb-6">Your Packet</h3>
+                                <div className="space-y-3 mb-6 text-sm">
+                                    <div className="flex justify-between font-bold"><span>{selection.base?.name}</span><span>Rs.{selection.base?.price}</span></div>
+                                    {selection.veg.map(v => <div key={v.id} className="flex justify-between text-gray-500"><span>+ {v.name}</span><span>{v.price}</span></div>)}
+                                    {selection.protein && <div className="flex justify-between font-bold text-orange-600"><span>{selection.protein.name}</span><span>Rs.{selection.protein.price}</span></div>}
+                                    {selection.addons.map(a => <div key={a.id} className="flex justify-between text-gray-500"><span>+ {a.name}</span><span>{a.price}</span></div>)}
+                                </div>
+                                <div className="bg-gray-50 p-4 rounded-xl mb-6 flex justify-between items-center font-bold"><span>Total</span><span>Rs. {calculateTotal()}</span></div>
+                                <button onClick={() => addToCart(selection, calculateTotal())} className="w-full bg-gray-900 text-white py-4 rounded-xl font-bold shadow-lg hover:bg-orange-500 transition">Add to Cart</button>
+                            </div>
                         </div>
                     </div>
                 </section>
             );
         };
 
-        // ==========================================
-        // 5. AI CHEF MODAL
-        // ==========================================
-        
         const ChefBot = ({ isOpen, onClose, onApplySuggestion }) => {
             const [step, setStep] = useState('intro');
-            const [prefs, setPrefs] = useState({ budget: 600, goal: 'balanced' });
+            const [prefs, setPrefs] = useState({ budget: 500, goal: 'balanced' });
             const [suggestion, setSuggestion] = useState(null);
-            const [loading, setLoading] = useState(false);
 
             const generate = () => {
-                setLoading(true);
-                setTimeout(() => {
-                    // --- AI Logic using NEW MENU ---
-                    let r = MENU_DB.base[0]; // Default Samba
-                    let p = MENU_DB.proteins[0]; // Default Chicken
-                    let v = []; 
-                    let a = [];
+                let r = MENU_DB.base[0];
+                let p = MENU_DB.proteins[0];
+                let v = [MENU_DB.veg[0], MENU_DB.veg[2]];
+                let a = [MENU_DB.addons[0]];
 
-                    // 1. Goal Logic
-                    if(prefs.goal === 'weight_loss') {
-                        r = MENU_DB.base[1]; // Red Rice
-                        p = MENU_DB.proteins[1]; // Fish
-                        // Add healthy veg
-                        v.push(MENU_DB.veg.find(i => i.name === 'Green Beans'));
-                        v.push(MENU_DB.veg.find(i => i.name === 'Jackfruit'));
-                        // Addon: Salad
-                        a.push(MENU_DB.addons.find(i => i.name === 'Salad'));
-                    } else if (prefs.goal === 'muscle_gain') {
-                        r = MENU_DB.base[1]; // Red Rice
-                        p = MENU_DB.proteins[0]; // Chicken
-                        v.push(MENU_DB.veg.find(i => i.name === 'Beetroot'));
-                        v.push(MENU_DB.veg.find(i => i.name === 'Pumpkin'));
-                        // Addon: Soya Meat (High Protein)
-                        a.push(MENU_DB.addons.find(i => i.name === 'Soya Meat'));
-                        a.push(MENU_DB.addons.find(i => i.name === 'Boiled Eggs')); // If exist in addons? No, Boil Egg is protein.
-                    } else {
-                        // Balanced
-                        r = MENU_DB.base[0];
-                        p = MENU_DB.proteins[0];
-                        v.push(MENU_DB.veg[2]); // Beans
-                        v.push(MENU_DB.veg[3]); // Pumpkin
-                        a.push(MENU_DB.addons[0]); // Dhal
-                        a.push(MENU_DB.addons[4]); // Papadam
-                    }
-
-                    // 2. Budget Check & Adjust
-                    let current = r.price + p.price + v.reduce((sum, item) => sum + (item?.price || 0), 0) + a.reduce((sum, item) => sum + (item?.price || 0), 0);
-                    
-                    if(current > prefs.budget) {
-                        // Switch to cheaper protein
-                        p = MENU_DB.proteins[3]; // Fried Egg (50)
-                        current = r.price + p.price + v.reduce((sum, item) => sum + (item?.price || 0), 0) + a.reduce((sum, item) => sum + (item?.price || 0), 0);
-                    }
-                    
-                    // Filter out undefined if find fails
-                    v = v.filter(Boolean);
-                    a = a.filter(Boolean);
-
-                    setSuggestion({ base: r, protein: p, veg: v, addons: a, total: current });
-                    setLoading(false);
-                    setStep('result');
-                }, 1500);
+                if(prefs.goal === 'weight_loss') { r = MENU_DB.base[1]; p = MENU_DB.proteins[1]; }
+                
+                let total = r.price + p.price + v.reduce((s,i)=>s+i.price,0) + a.reduce((s,i)=>s+i.price,0);
+                setSuggestion({ base: r, protein: p, veg: v, addons: a, total });
+                setStep('result');
             };
 
             if (!isOpen) return null;
 
             return (
-                <div class="fixed inset-0 z-[100] flex items-center justify-center p-4">
-                    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onClick={onClose}></div>
-                    <div class="bg-white w-full max-w-md rounded-[2rem] shadow-2xl relative z-10 overflow-hidden animate-slide-up flex flex-col max-h-[90vh]">
-                        
-                        {/* Header */}
-                        <div class="bg-gray-900 p-6 flex justify-between items-center text-white">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-xl shadow-lg">
-                                    <i class="fas fa-hat-chef"></i>
-                                </div>
-                                <div>
-                                    <h3 class="font-bold text-lg leading-tight">Chef Rasa</h3>
-                                    <p class="text-xs text-gray-400">AI Culinary Assistant</p>
-                                </div>
-                            </div>
-                            <button onClick={onClose}><i class="fas fa-times text-gray-400 hover:text-white"></i></button>
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                    <div className="bg-white w-full max-w-md rounded-[2rem] shadow-2xl overflow-hidden animate-slide-up">
+                        <div className="bg-gray-900 p-6 flex justify-between items-center text-white">
+                            <div className="flex items-center gap-3"><div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center"><i className="fas fa-hat-chef"></i></div><h3 className="font-bold">Chef Rasa</h3></div>
+                            <button onClick={onClose}><i className="fas fa-times"></i></button>
                         </div>
-
-                        <div class="p-8 overflow-y-auto">
-                            {step === 'intro' && (
-                                <div class="text-center">
-                                    <div class="w-20 h-20 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl animate-float">🥗</div>
-                                    <h3 class="text-xl font-bold mb-3">Hello! I'm Chef Rasa.</h3>
-                                    <p class="text-gray-500 mb-8 leading-relaxed">I can design the perfect rice packet based on your wallet and your waistline.</p>
-                                    <button onClick={() => setStep('input')} class="w-full bg-gray-900 text-white py-4 rounded-xl font-bold hover:bg-orange-500 transition shadow-lg">Start Planning</button>
+                        <div className="p-8">
+                            {step === 'intro' ? (
+                                <div className="text-center"><h3 className="text-xl font-bold mb-4">Let's find your perfect meal!</h3><button onClick={() => setStep('input')} className="w-full bg-gray-900 text-white py-4 rounded-xl font-bold hover:bg-orange-500 transition">Plan My Meal</button></div>
+                            ) : step === 'input' ? (
+                                <div className="space-y-6">
+                                    <div><label className="block text-sm font-bold mb-2">Budget: Rs.{prefs.budget}</label><input type="range" min="300" max="1000" step="50" value={prefs.budget} onChange={e => setPrefs({...prefs, budget: parseInt(e.target.value)})} className="w-full accent-orange-500" /></div>
+                                    <div><label className="block text-sm font-bold mb-2">Goal</label><div className="grid grid-cols-3 gap-2">{['balanced', 'muscle', 'weight_loss'].map(g => <button key={g} onClick={()=>setPrefs({...prefs, goal:g})} className={`py-2 text-xs rounded-lg border transition ${prefs.goal === g ? 'bg-orange-500 text-white border-orange-500' : 'bg-white'}`}>{g.replace('_',' ')}</button>)}</div></div>
+                                    <button onClick={generate} className="w-full bg-gray-900 text-white py-4 rounded-xl font-bold">Generate Suggestion</button>
                                 </div>
-                            )}
-
-                            {step === 'input' && (
-                                <div class="space-y-6">
-                                    <div>
-                                        <label class="block text-sm font-bold text-gray-900 mb-2 flex justify-between">
-                                            <span>Budget Limit</span>
-                                            <span class="text-orange-500">Rs. {prefs.budget}</span>
-                                        </label>
-                                        <input type="range" min="300" max="1500" step="50" value={prefs.budget} 
-                                               onChange={e => setPrefs({...prefs, budget: parseInt(e.target.value)})}
-                                               class="w-full accent-orange-500 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"/>
-                                    </div>
-                                    
-                                    <div>
-                                        <label class="block text-sm font-bold text-gray-900 mb-3">Your Goal</label>
-                                        <div class="grid gap-3">
-                                            {['balanced', 'muscle_gain', 'weight_loss'].map(g => (
-                                                <button key={g} onClick={() => setPrefs({...prefs, goal: g})}
-                                                    class={`p-4 rounded-xl border-2 text-left font-medium transition flex items-center justify-between ${prefs.goal === g ? 'border-orange-500 bg-orange-50 text-orange-800' : 'border-gray-100 hover:bg-gray-50'}`}>
-                                                    <span class="capitalize">{g.replace('_', ' ')}</span>
-                                                    {prefs.goal === g && <i class="fas fa-check text-orange-500"></i>}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    <button onClick={generate} class="w-full bg-gray-900 text-white py-4 rounded-xl font-bold hover:bg-orange-500 transition shadow-lg mt-4 flex justify-center items-center">
-                                        {loading ? <i class="fas fa-circle-notch fa-spin"></i> : 'Generate Meal'}
-                                    </button>
-                                </div>
-                            )}
-
-                            {step === 'result' && suggestion && (
+                            ) : (
                                 <div>
-                                    <div class="bg-green-50 text-green-800 p-4 rounded-xl text-sm mb-6 border border-green-100 flex gap-3">
-                                        <i class="fas fa-comment-alt mt-1"></i>
-                                        <p>"I've optimized this packet for <b>{prefs.goal.replace('_',' ')}</b> within <b>Rs. {prefs.budget}</b>."</p>
+                                    <div className="bg-orange-50 p-4 rounded-xl mb-6 text-sm">
+                                        <p className="font-bold mb-2">Chef's Pick:</p>
+                                        <p>{suggestion.base.name} + {suggestion.protein.name} + {suggestion.veg.length} Veggies</p>
+                                        <p className="font-bold mt-2">Total: Rs.{suggestion.total}</p>
                                     </div>
-
-                                    <div class="space-y-3 mb-6 bg-gray-50 p-4 rounded-2xl border border-gray-100">
-                                        <div class="flex justify-between items-center"><span class="font-bold text-gray-800">{suggestion.base.name}</span><span class="text-gray-500 text-sm">{suggestion.base.price}</span></div>
-                                        <div class="flex justify-between items-center text-orange-600"><span class="font-bold">{suggestion.protein.name}</span><span class="text-sm font-bold">{suggestion.protein.price}</span></div>
-                                        {suggestion.veg.map(v => (
-                                            <div key={v.id} class="flex justify-between items-center text-gray-500 text-sm pl-2 border-l-2 border-gray-200"><span>{v.name}</span><span>{v.price}</span></div>
-                                        ))}
-                                        {suggestion.addons.map(a => (
-                                            <div key={a.id} class="flex justify-between items-center text-gray-500 text-sm pl-2 border-l-2 border-gray-200"><span>{a.name}</span><span>{a.price}</span></div>
-                                        ))}
-                                        <div class="border-t border-gray-200 pt-3 mt-2 flex justify-between font-bold text-lg">
-                                            <span>Total</span>
-                                            <span>Rs. {suggestion.total}</span>
-                                        </div>
-                                    </div>
-
-                                    <button onClick={() => { onApplySuggestion(suggestion); onClose(); }} class="w-full bg-orange-500 text-white py-4 rounded-xl font-bold hover:bg-orange-600 transition shadow-lg mb-3">
-                                        Customize & Add
-                                    </button>
-                                    <button onClick={() => setStep('input')} class="w-full text-gray-500 py-2 hover:text-gray-900 text-sm">Try Again</button>
+                                    <button onClick={() => { onApplySuggestion(suggestion); onClose(); }} className="w-full bg-orange-500 text-white py-4 rounded-xl font-bold">Apply & Customize</button>
                                 </div>
                             )}
                         </div>
@@ -577,132 +303,45 @@
             );
         };
 
-        // ==========================================
-        // 6. CART SIDEBAR
-        // ==========================================
-
-        const Cart = ({ isOpen, onClose, cartItems, removeFromCart }) => {
-            const total = cartItems.reduce((acc, item) => acc + item.price, 0);
-            
-            if (!isOpen) return null;
-
-            return (
-                <div class="fixed inset-0 z-[60] overflow-hidden">
-                    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onClick={onClose}></div>
-                    <div class="absolute inset-y-0 right-0 max-w-md w-full flex">
-                        <div class="w-full h-full bg-white shadow-2xl flex flex-col animate-slide-up" style={{animationName: 'slideInRight'}}>
-                            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-                                <h2 class="text-xl font-bold text-gray-900">Your Basket ({cartItems.length})</h2>
-                                <button onClick={onClose} class="text-gray-400 hover:text-gray-900"><i class="fas fa-times text-xl"></i></button>
-                            </div>
-
-                            <div class="flex-1 overflow-y-auto p-6 space-y-6">
-                                {cartItems.length === 0 ? (
-                                    <div class="flex flex-col items-center justify-center h-full text-center text-gray-500 opacity-60">
-                                        <i class="fas fa-shopping-basket text-6xl mb-4 text-gray-300"></i>
-                                        <p>Your basket is empty.</p>
-                                    </div>
-                                ) : (
-                                    cartItems.map(item => (
-                                        <div key={item.id} class="flex gap-4 bg-white p-4 rounded-2xl border border-gray-100 shadow-sm relative group">
-                                            <img src={item.data.protein?.img || item.data.base.img} class="w-20 h-20 rounded-xl object-cover" />
-                                            <div class="flex-1">
-                                                <h4 class="font-bold text-gray-900">{item.data.protein?.name || "Veggie Packet"}</h4>
-                                                <p class="text-xs text-gray-500 mb-1">{item.data.base.name}</p>
-                                                <div class="flex flex-wrap gap-1">
-                                                    {item.data.veg.map(v => <span class="text-[10px] bg-gray-100 px-1 rounded text-gray-600">{v.name}</span>)}
-                                                    {item.data.addons.map(a => <span class="text-[10px] bg-amber-50 px-1 rounded text-amber-700">{a.name}</span>)}
-                                                </div>
-                                                <div class="mt-2 font-bold text-orange-500">Rs. {item.price}</div>
-                                            </div>
-                                            <button onClick={() => removeFromCart(item.id)} class="absolute top-2 right-2 text-gray-300 hover:text-red-500 transition">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </div>
-                                    ))
-                                )}
-                            </div>
-
-                            <div class="border-t border-gray-100 p-6 bg-gray-50">
-                                <div class="flex justify-between mb-4 text-lg font-bold text-gray-900">
-                                    <span>Total</span>
-                                    <span>Rs. {total}</span>
-                                </div>
-                                <button class="w-full bg-gray-900 hover:bg-orange-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-gray-900/10 transition transform hover:-translate-y-1">
-                                    Checkout Now
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
-
-        // ==========================================
-        // 7. MAIN APP
-        // ==========================================
-        
         const App = () => {
             const [cart, setCart] = useState([]);
             const [isCartOpen, setIsCartOpen] = useState(false);
             const [isChefOpen, setIsChefOpen] = useState(false);
-            const [prefillData, setPrefillData] = useState(null);
+            const [prefill, setPrefill] = useState(null);
 
-            const addToCart = (data, price) => {
-                setCart([...cart, { id: Date.now(), data, price }]);
-                setIsCartOpen(true);
-            };
-
-            const removeFromCart = (id) => {
-                setCart(cart.filter(item => item.id !== id));
-            };
-
-            const handleChefSuggestion = (suggestion) => {
-                setPrefillData({
-                    base: suggestion.base,
-                    protein: suggestion.protein,
-                    veg: suggestion.veg,
-                    addons: suggestion.addons
-                });
-                // Scroll to builder
-                document.getElementById('build').scrollIntoView({ behavior: 'smooth' });
-            };
+            const addToCart = (data, price) => { setCart([...cart, { id: Date.now(), data, price }]); setIsCartOpen(true); };
 
             return (
-                <div class="min-h-screen flex flex-col font-poppins">
+                <div className="min-h-screen flex flex-col">
                     <Navbar cartCount={cart.length} onOpenCart={() => setIsCartOpen(true)} onOpenChef={() => setIsChefOpen(true)} />
-                    
                     <Hero onOpenChef={() => setIsChefOpen(true)} />
+                    <Builder addToCart={addToCart} prefillData={prefill} />
+                    <ChefBot isOpen={isChefOpen} onClose={() => setIsChefOpen(false)} onApplySuggestion={setPrefill} />
                     
-                    <Builder addToCart={addToCart} prefillData={prefillData} />
-                    
-                    <ChefBot 
-                        isOpen={isChefOpen} 
-                        onClose={() => setIsChefOpen(false)} 
-                        onApplySuggestion={handleChefSuggestion} 
-                    />
-                    
-                    <Cart 
-                        isOpen={isCartOpen} 
-                        onClose={() => setIsCartOpen(false)} 
-                        cartItems={cart}
-                        removeFromCart={removeFromCart}
-                    />
-
-                    <footer class="bg-gray-900 text-white py-12 mt-auto">
-                        <div class="max-w-7xl mx-auto px-4 text-center">
-                            <div class="flex items-center justify-center gap-2 mb-4">
-                                <Logo />
-                                <h2 class="text-2xl font-bold">Suwa<span class="text-orange-500">Rasa</span></h2>
+                    {/* Simplified Cart Sidebar */}
+                    {isCartOpen && (
+                        <div className="fixed inset-0 z-[60]">
+                            <div className="absolute inset-0 bg-black/50" onClick={() => setIsCartOpen(false)}></div>
+                            <div className="absolute right-0 top-0 h-full w-80 bg-white p-6 shadow-2xl flex flex-col animate-slide-up">
+                                <h2 className="text-xl font-bold mb-6">Basket</h2>
+                                <div className="flex-1 overflow-y-auto space-y-4">
+                                    {cart.map(i => (
+                                        <div key={i.id} className="p-4 bg-gray-50 rounded-xl relative">
+                                            <p className="font-bold text-sm">{i.data.protein?.name || 'Veg Packet'}</p>
+                                            <p className="text-xs text-orange-500">Rs.{i.price}</p>
+                                            <button onClick={()=>setCart(cart.filter(c => c.id !== i.id))} className="absolute top-2 right-2 text-gray-300 hover:text-red-500"><i className="fas fa-trash-alt"></i></button>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="pt-6 border-t mt-auto font-bold text-lg flex justify-between"><span>Total</span><span>Rs. {cart.reduce((a,b)=>a+b.price, 0)}</span></div>
                             </div>
-                            <p class="text-gray-400 mb-8 max-w-sm mx-auto">Delivering authentic, healthy, and affordable Sri Lankan meals with the power of smart choices.</p>
-                            <div class="flex justify-center space-x-6">
-                                <a href="#" class="text-gray-500 hover:text-white transition"><i class="fab fa-instagram text-xl"></i></a>
-                                <a href="#" class="text-gray-500 hover:text-white transition"><i class="fab fa-facebook text-xl"></i></a>
-                                <a href="#" class="text-gray-500 hover:text-white transition"><i class="fab fa-whatsapp text-xl"></i></a>
-                            </div>
-                            <p class="text-gray-700 text-sm mt-8">&copy; 2026 Suwa Rasa. All rights reserved.</p>
                         </div>
+                    )}
+
+                    <footer className="bg-gray-900 text-white py-12 text-center mt-auto">
+                        <h2 className="text-2xl font-bold mb-4">Suwa<span className="text-orange-500">Rasa</span></h2>
+                        <p className="text-gray-400 mb-8 max-w-sm mx-auto px-4">Authentic, healthy, and affordable home-cooked meals.</p>
+                        <p className="text-gray-700 text-xs">&copy; 2026 Suwa Rasa. All rights reserved.</p>
                     </footer>
                 </div>
             );
