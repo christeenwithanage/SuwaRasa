@@ -17,35 +17,15 @@
 
     <style>
         body { font-family: 'Poppins', sans-serif; background-color: #FAFAFA; scroll-behavior: smooth; }
-        
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        /* Glassmorphism Navigation */
-        .glass { 
-            background: rgba(255, 255, 255, 0.95); 
-            backdrop-filter: blur(12px); 
-            border-bottom: 1px solid rgba(255,255,255,0.5);
-        }
-
-        /* Hero Background - Updated WebP Link */
-        .hero-pattern {
-            background-image: url('https://i.ibb.co/1J6WCwx9/background.webp');
-            background-size: cover;
-            background-position: center;
-        }
-
-        /* Animations */
+        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.5); }
+        .hero-pattern { background-image: url('https://i.ibb.co/1J6WCwx9/background.webp'); background-size: cover; background-position: center; }
         .animate-float { animation: float 6s ease-in-out infinite; }
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
-        
         .animate-slide-up { animation: slideUp 0.5s ease-out forwards; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .selected-ring { 
-            box-shadow: 0 0 0 4px #f97316; 
-            transform: scale(1.02);
-        }
+        .selected-ring { box-shadow: 0 0 0 4px #f97316; transform: scale(1.02); }
     </style>
 </head>
 <body class="text-gray-800 antialiased selection:bg-orange-200 selection:text-orange-900">
@@ -55,9 +35,7 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // ==========================================
-        // 1. DATA (Updated with WebP Links)
-        // ==========================================
+        // DATA
         const MENU_DB = {
             base: [
                 { id: 'b1', name: 'Samba Rice', price: 50, img: 'https://i.ibb.co/gbPVpCfQ/samba-rice.webp' },
@@ -84,80 +62,94 @@
             ]
         };
 
-        // ==========================================
-        // 2. COMPONENTS
-        // ==========================================
-        
         const Logo = () => (
-            <div className="relative w-40 h-40 rounded-full border-4 border-orange-500 overflow-hidden shadow-2xl bg-white flex-shrink-0 z-50">
+            <div className="relative w-24 h-24 lg:w-40 lg:h-40 rounded-full border-4 border-orange-500 overflow-hidden shadow-2xl bg-white flex-shrink-0 z-50">
                 <img src="https://i.ibb.co/h12FHZfD/logo.webp" alt="Suwa Rasa" className="w-full h-full object-cover" />
             </div>
         );
 
-        const Navbar = ({ cartCount, onOpenCart, onOpenChef }) => (
-            <nav className="fixed top-0 w-full z-50 glass transition-all duration-300 overflow-visible">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center h-24 relative">
-                        <div className="flex items-center cursor-pointer gap-3" onClick={() => window.scrollTo({top:0, behavior:'smooth'})}>
-                            <div className="absolute top-0 left-0 mt-4"><Logo /></div>
-                            <div className="flex flex-col ml-44">
-                                <span className="font-bold text-2xl tracking-tight text-gray-900 leading-none">Suwa<span className="text-orange-500">Rasa</span></span>
-                                <span className="text-[0.65rem] font-bold text-gray-400 tracking-widest uppercase">Authentic Taste</span>
+        const Navbar = ({ cartCount, onOpenCart, onOpenChef }) => {
+            const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+            return (
+                <nav className="fixed top-0 w-full z-50 glass transition-all duration-300 overflow-visible">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex justify-between items-center h-20 lg:h-24 relative">
+                            
+                            {/* Logo & Brand */}
+                            <div className="flex items-center cursor-pointer gap-3 z-50" onClick={() => window.scrollTo({top:0, behavior:'smooth'})}>
+                                <div className="absolute top-0 left-0 mt-2 lg:mt-4">
+                                    <Logo />
+                                </div>
+                                <div className="flex flex-col ml-28 lg:ml-44">
+                                    <span className="font-bold text-xl lg:text-2xl tracking-tight text-gray-900 leading-none">Suwa<span className="text-orange-500">Rasa</span></span>
+                                    <span className="text-[0.6rem] lg:text-[0.65rem] font-bold text-gray-400 tracking-widest uppercase">Authentic Taste</span>
+                                </div>
+                            </div>
+                            
+                            {/* Desktop Navigation */}
+                            <div className="hidden md:flex items-center space-x-8">
+                                <a href="index.html" onClick={(e)=>{e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'})}} className="text-gray-600 hover:text-orange-500 font-semibold transition">Home</a>
+                                <a href="#build" className="text-gray-600 hover:text-orange-500 font-semibold transition">Menu</a>
+                                <a href="about.html" className="text-gray-600 hover:text-orange-500 font-semibold transition">About</a>
+                                <a href="contact.html" className="text-gray-600 hover:text-orange-500 font-semibold transition">Contact</a>
+                            </div>
+
+                            {/* Mobile/Desktop Actions */}
+                            <div className="flex items-center gap-3 lg:gap-6 z-50">
+                                <button onClick={onOpenChef} className="hidden lg:flex items-center gap-2 bg-gray-100 hover:bg-orange-50 text-gray-700 hover:text-orange-600 px-4 py-2 rounded-full transition font-medium text-sm">
+                                    <i className="fas fa-robot"></i> Chef AI
+                                </button>
+                                <button onClick={onOpenChef} className="lg:hidden w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                                    <i className="fas fa-robot"></i>
+                                </button>
+                                <button onClick={onOpenCart} className="relative p-2 rounded-full hover:bg-orange-50 text-gray-600 transition">
+                                    <i className="fas fa-shopping-bag text-xl lg:text-2xl"></i>
+                                    {cartCount > 0 && <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">{cartCount}</span>}
+                                </button>
+                                
+                                {/* Mobile Toggle */}
+                                <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden text-gray-700 text-2xl focus:outline-none ml-2">
+                                    <i className={`fas ${isMenuOpen ? 'fa-times' : 'fa-bars'}`}></i>
+                                </button>
                             </div>
                         </div>
-                        
-                        <div className="hidden md:flex items-center space-x-8">
-                            <a href="index.html" onClick={(e) => { 
-                                if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
-                                    e.preventDefault(); 
-                                    window.scrollTo({top: 0, behavior: 'smooth'}); 
-                                }
-                            }} className="text-gray-600 hover:text-orange-500 font-semibold transition duration-200">Home</a>
-                            <a href="#build" className="text-gray-600 hover:text-orange-500 font-semibold transition duration-200">Menu</a>
-                            <a href="about.html" className="text-gray-600 hover:text-orange-500 font-semibold transition duration-200">About</a>
-                            <a href="contact.html" className="text-gray-600 hover:text-orange-500 font-semibold transition duration-200">Contact</a>
-                        </div>
-
-                        <div className="flex items-center gap-4 lg:gap-6">
-                            <button onClick={onOpenChef} className="hidden lg:flex items-center gap-2 bg-gray-100 hover:bg-orange-50 text-gray-700 hover:text-orange-600 px-4 py-2 rounded-full transition font-medium text-sm">
-                                <i className="fas fa-robot"></i> Chef AI
-                            </button>
-                            <button onClick={onOpenChef} className="lg:hidden w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:text-orange-500">
-                                <i className="fas fa-robot"></i>
-                            </button>
-                            <button onClick={onOpenCart} className="relative p-2 rounded-full hover:bg-orange-50 text-gray-600 transition group">
-                                <i className="fas fa-shopping-bag text-2xl group-hover:text-orange-500 transition"></i>
-                                {cartCount > 0 && (
-                                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white transform scale-110">
-                                        {cartCount}
-                                    </span>
-                                )}
-                            </button>
-                        </div>
                     </div>
-                </div>
-            </nav>
-        );
+
+                    {/* Mobile Menu Dropdown */}
+                    {isMenuOpen && (
+                        <div className="md:hidden absolute top-20 left-0 w-full bg-white shadow-xl border-t border-gray-100 animate-slide-up">
+                            <div className="flex flex-col p-6 space-y-4 font-semibold text-gray-700">
+                                <a href="index.html" onClick={()=>setIsMenuOpen(false)} className="hover:text-orange-500">Home</a>
+                                <a href="#build" onClick={()=>setIsMenuOpen(false)} className="hover:text-orange-500">Menu</a>
+                                <a href="about.html" className="hover:text-orange-500">About</a>
+                                <a href="contact.html" className="hover:text-orange-500">Contact</a>
+                            </div>
+                        </div>
+                    )}
+                </nav>
+            );
+        };
 
         const Hero = ({ onOpenChef }) => (
-            <div className="relative pt-24 pb-16 lg:pt-40 lg:pb-32 overflow-hidden bg-gray-50">
+            <div className="relative pt-32 pb-16 lg:pt-40 lg:pb-32 overflow-hidden bg-gray-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    <div className="lg:w-1/2 mt-16 lg:mt-20">
+                    <div className="lg:w-1/2 mt-8 lg:mt-20 text-center lg:text-left">
                         <span className="bg-orange-100 text-orange-600 font-bold px-4 py-2 rounded-full text-xs uppercase tracking-wider inline-block mb-6 shadow-sm">
                             🌿 Fresh • Healthy • Homemade
                         </span>
-                        <h1 className="text-5xl lg:text-7xl font-extrabold text-gray-900 leading-[1.1] mb-8">
+                        <h1 className="text-4xl lg:text-7xl font-extrabold text-gray-900 leading-[1.1] mb-6">
                             Taste the <br/>
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">Extraordinary.</span>
                         </h1>
-                        <p className="text-lg text-gray-500 mb-10 max-w-lg leading-relaxed">
+                        <p className="text-base lg:text-lg text-gray-500 mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed">
                             Custom-built Sri Lankan rice packets delivered to your door. Choose your base, pick your proteins, and select your daily curries.
                         </p>
-                        <div className="flex space-x-4">
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                             <a href="#build" className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-orange-500/30 transition transform hover:-translate-y-1">
                                 Build Packet
                             </a>
-                            <button onClick={onOpenChef} className="bg-white text-gray-700 hover:text-orange-500 px-8 py-4 rounded-full font-bold shadow-md transition border border-gray-100 flex items-center">
+                            <button onClick={onOpenChef} className="bg-white text-gray-700 hover:text-orange-500 px-8 py-4 rounded-full font-bold shadow-md transition border border-gray-100 flex items-center justify-center">
                                 <i className="fas fa-magic mr-2 text-orange-400"></i> AI Suggest
                             </button>
                         </div>
@@ -170,12 +162,7 @@
         );
 
         const Builder = ({ addToCart, prefillData }) => {
-            const [selection, setSelection] = useState({
-                base: MENU_DB.base[0],
-                protein: null,
-                veg: [],
-                addons: []
-            });
+            const [selection, setSelection] = useState({ base: MENU_DB.base[0], protein: null, veg: [], addons: [] });
 
             useEffect(() => { if(prefillData) setSelection(prefillData); }, [prefillData]);
 
@@ -197,17 +184,9 @@
 
             const ItemCard = ({ item, isSelected, onClick }) => (
                 <div onClick={onClick} className={`group bg-white rounded-3xl p-3 shadow-md hover:shadow-xl transition-all border border-gray-100 cursor-pointer ${isSelected ? 'selected-ring' : ''}`}>
-                    <div className="relative h-28 rounded-2xl overflow-hidden mb-2 bg-gray-50">
-                        <img src={item.img} className="w-full h-full object-cover group-hover:scale-110 transition duration-500" 
-                             onError={(e) => { e.target.style.display='none'; e.target.parentNode.innerHTML='<div class="w-full h-full bg-gray-200 flex items-center justify-center text-xs text-gray-400">Image</div>'; }} />
-                        
-                        {isSelected && (
-                            <div className="absolute inset-0 bg-orange-500/20 backdrop-blur-[1px] flex items-center justify-center animate-pulse">
-                                <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white text-lg shadow-lg">
-                                    <i className="fas fa-check"></i>
-                                </div>
-                            </div>
-                        )}
+                    <div className="relative h-24 lg:h-28 rounded-2xl overflow-hidden mb-2 bg-gray-50">
+                        <img src={item.img} className="w-full h-full object-cover group-hover:scale-110 transition duration-500" onError={(e) => { e.target.style.display='none'; e.target.parentNode.innerHTML='<div class="w-full h-full bg-gray-200 flex items-center justify-center text-xs text-gray-400">Img</div>'; }} />
+                        {isSelected && <div className="absolute inset-0 bg-orange-500/20 backdrop-blur-[1px] flex items-center justify-center animate-pulse"><div className="w-8 h-8 lg:w-10 lg:h-10 bg-orange-500 rounded-full flex items-center justify-center text-white text-lg shadow-lg"><i className="fas fa-check"></i></div></div>}
                         <div className="absolute top-2 right-2 bg-white/90 px-2 py-0.5 rounded-full text-[10px] font-bold">Rs.{item.price}</div>
                     </div>
                     <h3 className="font-bold text-xs text-center text-gray-800">{item.name}</h3>
@@ -216,37 +195,17 @@
 
             return (
                 <section id="build" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-12"><h2 className="text-4xl font-bold mb-4">Craft Your Meal</h2><div className="w-20 h-1 bg-orange-500 mx-auto rounded-full"></div></div>
+                    <div className="text-center mb-12"><h2 className="text-3xl lg:text-4xl font-bold mb-4">Craft Your Meal</h2><div className="w-20 h-1 bg-orange-500 mx-auto rounded-full"></div></div>
                     <div className="flex flex-col lg:flex-row gap-12">
                         <div className="flex-1 space-y-12">
                             {/* Base */}
-                            <div>
-                                <h3 className="font-bold text-xl mb-6 flex items-center"><span className="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center text-sm mr-3">1</span> Select Base</h3>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                    {MENU_DB.base.map(i => <ItemCard key={i.id} item={i} isSelected={selection.base?.id === i.id} onClick={() => setSelection({...selection, base:i})} />)}
-                                </div>
-                            </div>
+                            <div><h3 className="font-bold text-xl mb-6 flex items-center"><span className="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center text-sm mr-3">1</span> Select Base</h3><div className="grid grid-cols-2 md:grid-cols-4 gap-4">{MENU_DB.base.map(i => <ItemCard key={i.id} item={i} isSelected={selection.base?.id === i.id} onClick={() => setSelection({...selection, base:i})} />)}</div></div>
                             {/* Veg */}
-                            <div>
-                                <h3 className="font-bold text-xl mb-6 flex items-center"><span className="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center text-sm mr-3">2</span> Vegetables</h3>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                    {MENU_DB.veg.map(i => <ItemCard key={i.id} item={i} isSelected={selection.veg.some(v => v.id === i.id)} onClick={() => toggleMultiple('veg', i)} />)}
-                                </div>
-                            </div>
+                            <div><h3 className="font-bold text-xl mb-6 flex items-center"><span className="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center text-sm mr-3">2</span> Vegetables</h3><div className="grid grid-cols-2 md:grid-cols-4 gap-4">{MENU_DB.veg.map(i => <ItemCard key={i.id} item={i} isSelected={selection.veg.some(v => v.id === i.id)} onClick={() => toggleMultiple('veg', i)} />)}</div></div>
                             {/* Protein */}
-                            <div>
-                                <h3 className="font-bold text-xl mb-6 flex items-center"><span className="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center text-sm mr-3">3</span> Proteins</h3>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                    {MENU_DB.proteins.map(i => <ItemCard key={i.id} item={i} isSelected={selection.protein?.id === i.id} onClick={() => setSelection({...selection, protein:i})} />)}
-                                </div>
-                            </div>
+                            <div><h3 className="font-bold text-xl mb-6 flex items-center"><span className="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center text-sm mr-3">3</span> Proteins</h3><div className="grid grid-cols-2 md:grid-cols-4 gap-4">{MENU_DB.proteins.map(i => <ItemCard key={i.id} item={i} isSelected={selection.protein?.id === i.id} onClick={() => setSelection({...selection, protein:i})} />)}</div></div>
                             {/* Addons */}
-                            <div>
-                                <h3 className="font-bold text-xl mb-6 flex items-center"><span className="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center text-sm mr-3">4</span> Add-ons</h3>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                    {MENU_DB.addons.map(i => <ItemCard key={i.id} item={i} isSelected={selection.addons.some(a => a.id === i.id)} onClick={() => toggleMultiple('addons', i)} />)}
-                                </div>
-                            </div>
+                            <div><h3 className="font-bold text-xl mb-6 flex items-center"><span className="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center text-sm mr-3">4</span> Add-ons</h3><div className="grid grid-cols-2 md:grid-cols-4 gap-4">{MENU_DB.addons.map(i => <ItemCard key={i.id} item={i} isSelected={selection.addons.some(a => a.id === i.id)} onClick={() => toggleMultiple('addons', i)} />)}</div></div>
                         </div>
 
                         {/* Summary Sticky */}
@@ -256,9 +215,7 @@
                                 <div className="space-y-3 mb-6 text-sm">
                                     <div className="flex justify-between font-bold"><span>{selection.base?.name}</span><span>Rs.{selection.base?.price}</span></div>
                                     {selection.veg.map(v => <div key={v.id} className="flex justify-between text-gray-500"><span>+ {v.name}</span><span>{v.price}</span></div>)}
-                                    {selection.protein ? (
-                                        <div className="flex justify-between font-bold text-orange-600"><span>{selection.protein.name}</span><span>Rs.{selection.protein.price}</span></div>
-                                    ) : <div className="text-xs text-gray-400 italic">No Protein Selected</div>}
+                                    {selection.protein ? <div className="flex justify-between font-bold text-orange-600"><span>{selection.protein.name}</span><span>Rs.{selection.protein.price}</span></div> : <div className="text-xs text-gray-400 italic">No Protein Selected</div>}
                                     {selection.addons.map(a => <div key={a.id} className="flex justify-between text-gray-500"><span>+ {a.name}</span><span>{a.price}</span></div>)}
                                 </div>
                                 <div className="bg-gray-50 p-4 rounded-xl mb-6 flex justify-between items-center font-bold"><span>Total</span><span>Rs. {calculateTotal()}</span></div>
@@ -279,33 +236,12 @@
             const generate = () => {
                 setLoading(true);
                 setTimeout(() => {
-                    let r = MENU_DB.base[0];
-                    let p = MENU_DB.proteins[0];
-                    let v = [MENU_DB.veg[2]]; // Beans default
-                    let a = [MENU_DB.addons[0]]; // Dhal default
-
-                    if(prefs.goal === 'weight_loss') { 
-                        r = MENU_DB.base[1]; // Red Rice
-                        p = MENU_DB.proteins[1]; // Fish
-                        v = [MENU_DB.veg[0], MENU_DB.veg[1]]; // Beetroot, Jackfruit
-                        a = [MENU_DB.addons[3]]; // Salad
-                    } else if (prefs.goal === 'muscle_gain') {
-                        r = MENU_DB.base[1]; 
-                        p = MENU_DB.proteins[0]; // Chicken
-                        v = [MENU_DB.veg[0], MENU_DB.veg[3]]; // Beetroot, Pumpkin
-                        a = [MENU_DB.addons[2]]; // Soya
-                    }
-                    
-                    // Simple budget fallback logic
+                    let r = MENU_DB.base[0]; let p = MENU_DB.proteins[0]; let v = [MENU_DB.veg[2]]; let a = [MENU_DB.addons[0]];
+                    if(prefs.goal === 'weight_loss') { r = MENU_DB.base[1]; p = MENU_DB.proteins[1]; v = [MENU_DB.veg[0], MENU_DB.veg[1]]; a = [MENU_DB.addons[3]]; }
+                    else if (prefs.goal === 'muscle_gain') { r = MENU_DB.base[1]; p = MENU_DB.proteins[0]; v = [MENU_DB.veg[0], MENU_DB.veg[3]]; a = [MENU_DB.addons[2]]; }
                     let current = r.price + p.price + v.reduce((s,i)=>s+i.price,0) + a.reduce((s,i)=>s+i.price,0);
-                    if(current > prefs.budget) {
-                        p = MENU_DB.proteins[3]; // Fried Egg fallback
-                        current = r.price + p.price + v.reduce((s,i)=>s+i.price,0) + a.reduce((s,i)=>s+i.price,0);
-                    }
-
-                    setSuggestion({ base: r, protein: p, veg: v, addons: a, total: current });
-                    setLoading(false);
-                    setStep('result');
+                    if(current > prefs.budget) { p = MENU_DB.proteins[3]; current = r.price + p.price + v.reduce((s,i)=>s+i.price,0) + a.reduce((s,i)=>s+i.price,0); }
+                    setSuggestion({ base: r, protein: p, veg: v, addons: a, total: current }); setLoading(false); setStep('result');
                 }, 1500);
             };
 
@@ -323,33 +259,18 @@
                                 <div className="text-center">
                                     <div className="w-20 h-20 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl animate-float">🥗</div>
                                     <h3 class="text-xl font-bold mb-3">Hello! I'm Chef Rasa.</h3>
-                                    <p className="text-gray-500 mb-8 leading-relaxed">I can design the perfect rice packet based on your wallet and your waistline.</p>
+                                    <p class="text-gray-500 mb-8 leading-relaxed">I can design the perfect rice packet based on your wallet and your waistline.</p>
                                     <button onClick={() => setStep('input')} className="w-full bg-gray-900 text-white py-4 rounded-xl font-bold hover:bg-orange-500 transition">Start Planning</button>
                                 </div>
                             ) : step === 'input' ? (
                                 <div className="space-y-6">
-                                    <div>
-                                        <label className="block text-sm font-bold mb-2">Budget Limit: Rs.{prefs.budget}</label>
-                                        <input type="range" min="300" max="1500" step="50" value={prefs.budget} onChange={e => setPrefs({...prefs, budget: parseInt(e.target.value)})} className="w-full accent-orange-500" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-bold mb-2">Goal</label>
-                                        <div className="grid grid-cols-1 gap-2">
-                                            {['balanced', 'muscle_gain', 'weight_loss'].map(g => (
-                                                <button key={g} onClick={()=>setPrefs({...prefs, goal:g})} className={`py-3 px-4 text-left rounded-xl border transition flex justify-between ${prefs.goal === g ? 'bg-orange-50 border-orange-500 text-orange-800 font-bold' : 'bg-white border-gray-200'}`}>
-                                                    <span className="capitalize">{g.replace('_',' ')}</span>
-                                                    {prefs.goal === g && <i className="fas fa-check text-orange-500"></i>}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    <button onClick={generate} className="w-full bg-gray-900 text-white py-4 rounded-xl font-bold hover:bg-orange-500 transition mt-4">
-                                        {loading ? <i className="fas fa-circle-notch fa-spin"></i> : 'Generate Meal'}
-                                    </button>
+                                    <div><label className="block text-sm font-bold mb-2">Budget: Rs.{prefs.budget}</label><input type="range" min="300" max="1500" step="50" value={prefs.budget} onChange={e => setPrefs({...prefs, budget: parseInt(e.target.value)})} className="w-full accent-orange-500" /></div>
+                                    <div><label className="block text-sm font-bold mb-2">Goal</label><div className="grid grid-cols-1 gap-2">{['balanced', 'muscle_gain', 'weight_loss'].map(g => (<button key={g} onClick={()=>setPrefs({...prefs, goal:g})} className={`py-3 px-4 text-left rounded-xl border transition flex justify-between ${prefs.goal === g ? 'bg-orange-50 border-orange-500 text-orange-800 font-bold' : 'bg-white border-gray-200'}`}><span className="capitalize">{g.replace('_',' ')}</span>{prefs.goal === g && <i className="fas fa-check text-orange-500"></i>}</button>))}</div></div>
+                                    <button onClick={generate} className="w-full bg-gray-900 text-white py-4 rounded-xl font-bold hover:bg-orange-500 transition mt-4">{loading ? <i className="fas fa-circle-notch fa-spin"></i> : 'Generate Meal'}</button>
                                 </div>
                             ) : (
                                 <div>
-                                    <div className="bg-green-50 text-green-800 p-4 rounded-xl text-sm mb-6 border border-green-100"><i className="fas fa-comment-alt mr-2"></i>I've optimized this packet for <b>{prefs.goal.replace('_',' ')}</b> within <b>Rs. {prefs.budget}</b>.</div>
+                                    <div className="bg-green-50 text-green-800 p-4 rounded-xl text-sm mb-6 border border-green-100"><i className="fas fa-comment-alt mr-2"></i>Optimized for <b>{prefs.goal.replace('_',' ')}</b> within <b>Rs. {prefs.budget}</b>.</div>
                                     <div className="bg-gray-50 p-4 rounded-xl mb-6 text-sm space-y-2 border border-gray-200">
                                         <div className="flex justify-between font-bold"><span>{suggestion.base.name}</span><span>{suggestion.base.price}</span></div>
                                         <div className="flex justify-between font-bold text-orange-600"><span>{suggestion.protein.name}</span><span>{suggestion.protein.price}</span></div>
@@ -382,32 +303,22 @@
                     <Builder addToCart={addToCart} prefillData={prefill} />
                     <ChefBot isOpen={isChefOpen} onClose={() => setIsChefOpen(false)} onApplySuggestion={setPrefill} />
                     
-                    {/* Simplified Cart Sidebar */}
+                    {/* Cart Sidebar */}
                     {isCartOpen && (
                         <div className="fixed inset-0 z-[60] overflow-hidden">
                             <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsCartOpen(false)}></div>
-                            <div className="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col animate-slide-up" style={{animationName: 'slideInRight'}}>
-                                <div className="p-6 border-b flex justify-between items-center bg-gray-50">
-                                    <h2 className="text-xl font-bold">Your Basket ({cart.length})</h2>
-                                    <button onClick={() => setIsCartOpen(false)}><i className="fas fa-times"></i></button>
-                                </div>
+                            <div className="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col animate-slide-up">
+                                <div className="p-6 border-b flex justify-between items-center bg-gray-50"><h2 className="text-xl font-bold">Your Basket ({cart.length})</h2><button onClick={() => setIsCartOpen(false)}><i className="fas fa-times"></i></button></div>
                                 <div className="flex-1 overflow-y-auto p-6 space-y-4">
                                     {cart.length === 0 ? <p className="text-center text-gray-400 mt-10">Basket is empty</p> : cart.map(i => (
                                         <div key={i.id} className="p-4 bg-white border rounded-xl relative shadow-sm flex gap-4">
                                             <img src={i.data.protein?.img || i.data.base.img} className="w-16 h-16 rounded-lg object-cover" />
-                                            <div>
-                                                <p className="font-bold text-sm">{i.data.protein?.name || 'Veg Packet'}</p>
-                                                <p className="text-xs text-gray-500">{i.data.base.name}</p>
-                                                <p className="text-sm font-bold text-orange-500 mt-1">Rs.{i.price}</p>
-                                            </div>
+                                            <div><p className="font-bold text-sm">{i.data.protein?.name || 'Veg Packet'}</p><p className="text-xs text-gray-500">{i.data.base.name}</p><p className="text-sm font-bold text-orange-500 mt-1">Rs.{i.price}</p></div>
                                             <button onClick={()=>setCart(cart.filter(c => c.id !== i.id))} className="absolute top-2 right-2 text-gray-300 hover:text-red-500"><i className="fas fa-trash-alt"></i></button>
                                         </div>
                                     ))}
                                 </div>
-                                <div className="p-6 border-t bg-gray-50">
-                                    <div className="flex justify-between font-bold text-xl mb-4"><span>Total</span><span>Rs. {cart.reduce((a,b)=>a+b.price, 0)}</span></div>
-                                    <button className="w-full bg-gray-900 text-white py-4 rounded-xl font-bold hover:bg-orange-600 transition">Checkout Now</button>
-                                </div>
+                                <div className="p-6 border-t bg-gray-50"><div className="flex justify-between font-bold text-xl mb-4"><span>Total</span><span>Rs. {cart.reduce((a,b)=>a+b.price, 0)}</span></div><button className="w-full bg-gray-900 text-white py-4 rounded-xl font-bold hover:bg-orange-600 transition">Checkout Now</button></div>
                             </div>
                         </div>
                     )}
