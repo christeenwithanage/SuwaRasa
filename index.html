@@ -68,7 +68,7 @@
             </div>
         );
 
-        const Navbar = ({ cartCount, onOpenCart, onOpenChef }) => {
+const Navbar = ({ cartCount, onOpenCart, onOpenChef }) => {
             const [isMenuOpen, setIsMenuOpen] = useState(false);
 
             return (
@@ -97,11 +97,13 @@
 
                             {/* Mobile/Desktop Actions */}
                             <div className="flex items-center gap-3 lg:gap-6 z-50">
+                                {/* CHANGED: Icon updated here */}
                                 <button onClick={onOpenChef} className="hidden lg:flex items-center gap-2 bg-gray-100 hover:bg-orange-50 text-gray-700 hover:text-orange-600 px-4 py-2 rounded-full transition font-medium text-sm">
-                                    <i className="fas fa-robot"></i> Chef AI
+                                    <i className="fas fa-wand-magic-sparkles"></i> Chef AI
                                 </button>
+                                {/* CHANGED: Icon updated here for mobile view */}
                                 <button onClick={onOpenChef} className="lg:hidden w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
-                                    <i className="fas fa-robot"></i>
+                                    <i className="fas fa-wand-magic-sparkles"></i>
                                 </button>
                                 <button onClick={onOpenCart} className="relative p-2 rounded-full hover:bg-orange-50 text-gray-600 transition">
                                     <i className="fas fa-shopping-bag text-xl lg:text-2xl"></i>
@@ -251,7 +253,12 @@
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
                     <div className="bg-white w-full max-w-md rounded-[2rem] shadow-2xl overflow-hidden animate-slide-up flex flex-col max-h-[90vh]">
                         <div className="bg-gray-900 p-6 flex justify-between items-center text-white">
-                            <div className="flex items-center gap-3"><div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center"><i className="fas fa-hat-chef"></i></div><h3 className="font-bold">Chef Rasa</h3></div>
+                            <div className="flex items-center gap-3">
+                                {/* CHANGED: Replaced Icon div with Image */}
+                                <img src="https://i.ibb.co/GvXMmCrD/ai-bot.webp" alt="AI" className="w-10 h-10 rounded-full object-cover border-2 border-orange-500" />
+                                {/* CHANGED: Text updated */}
+                                <h3 className="font-bold">Suwarasa Assist</h3>
+                            </div>
                             <button onClick={onClose}><i className="fas fa-times"></i></button>
                         </div>
                         <div className="p-8 overflow-y-auto">
