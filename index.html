@@ -252,22 +252,28 @@ const Navbar = ({ cartCount, onOpenCart, onOpenChef }) => {
             return (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
                     <div className="bg-white w-full max-w-md rounded-[2rem] shadow-2xl overflow-hidden animate-slide-up flex flex-col max-h-[90vh]">
+                        {/* Header Section - Logo Removed */}
                         <div className="bg-gray-900 p-6 flex justify-between items-center text-white">
                             <div className="flex items-center gap-3">
-                                {/* CHANGED: Replaced Icon div with Image */}
-                                <img src="https://i.ibb.co/DfhwzHCV/ai-chef.webp" alt="AI" className="w-10 h-10 rounded-full object-cover border-2 border-orange-500" />
-                                {/* CHANGED: Text updated */}
-                                <h3 className="font-bold">Suwarasa Assist</h3>
+                                <h3 className="font-bold text-lg">Suwarasa Assist</h3>
                             </div>
-                            <button onClick={onClose}><i className="fas fa-times"></i></button>
+                            <button onClick={onClose} className="hover:text-orange-500 transition"><i className="fas fa-times"></i></button>
                         </div>
+                        
                         <div className="p-8 overflow-y-auto">
                             {step === 'intro' ? (
                                 <div className="text-center">
-                                    <div className="w-20 h-20 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl animate-float">🥗</div>
-                                    <h3 class="text-xl font-bold mb-3">Hello! I'm Chef Rasa.</h3>
-                                    <p class="text-gray-500 mb-8 leading-relaxed">I can design the perfect rice packet based on your wallet and your waistline.</p>
-                                    <button onClick={() => setStep('input')} className="w-full bg-gray-900 text-white py-4 rounded-xl font-bold hover:bg-orange-500 transition">Start Planning</button>
+                                    {/* AI Bot Image in Attractive Circle */}
+                                    <div className="relative w-28 h-28 mx-auto mb-6 animate-float">
+                                        <div className="absolute inset-0 bg-orange-500 rounded-full opacity-20 blur-lg"></div>
+                                        <div className="relative w-full h-full rounded-full border-4 border-white shadow-xl overflow-hidden bg-gray-100 ring-4 ring-orange-100">
+                                            <img src="https://i.ibb.co/DfhwzHCV/ai-chef.webp" alt="AI Bot" className="w-full h-full object-cover" />
+                                        </div>
+                                    </div>
+                                    
+                                    <h3 className="text-xl font-bold mb-3">Hello! I'm Suwarasa Assist.</h3>
+                                    <p className="text-gray-500 mb-8 leading-relaxed">I can design the perfect rice packet based on your wallet and your waistline.</p>
+                                    <button onClick={() => setStep('input')} className="w-full bg-gray-900 text-white py-4 rounded-xl font-bold hover:bg-orange-500 transition shadow-lg shadow-orange-500/20">Start Planning</button>
                                 </div>
                             ) : step === 'input' ? (
                                 <div className="space-y-6">
@@ -285,7 +291,7 @@ const Navbar = ({ cartCount, onOpenCart, onOpenChef }) => {
                                         {suggestion.addons.map(a => <div key={a.id} className="flex justify-between pl-2 text-gray-500"><span>{a.name}</span><span>{a.price}</span></div>)}
                                         <div className="border-t pt-2 mt-2 font-bold flex justify-between"><span>Total</span><span>Rs.{suggestion.total}</span></div>
                                     </div>
-                                    <button onClick={() => { onApplySuggestion(suggestion); onClose(); }} className="w-full bg-orange-500 text-white py-4 rounded-xl font-bold mb-3">Apply & Customize</button>
+                                    <button onClick={() => { onApplySuggestion(suggestion); onClose(); }} className="w-full bg-orange-500 text-white py-4 rounded-xl font-bold mb-3 shadow-lg hover:bg-orange-600 transition">Apply & Customize</button>
                                     <button onClick={() => setStep('input')} className="w-full text-gray-500 text-sm hover:text-black">Try Again</button>
                                 </div>
                             )}
@@ -294,7 +300,6 @@ const Navbar = ({ cartCount, onOpenCart, onOpenChef }) => {
                 </div>
             );
         };
-
         const App = () => {
             const [cart, setCart] = useState([]);
             const [isCartOpen, setIsCartOpen] = useState(false);
