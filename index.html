@@ -28,9 +28,9 @@
             border-bottom: 1px solid rgba(255,255,255,0.5);
         }
 
-        /* Hero Background - Updated Link */
+        /* Hero Background - Updated WebP Link */
         .hero-pattern {
-            background-image: url('https://i.ibb.co/VW0QQ0nB/background.png');
+            background-image: url('https://i.ibb.co/QFkL6z73/background.webp');
             background-size: cover;
             background-position: center;
         }
@@ -56,31 +56,31 @@
         const { useState, useEffect } = React;
 
         // ==========================================
-        // 1. DATA (With provided Image Links)
+        // 1. DATA (Updated with WebP Links)
         // ==========================================
         const MENU_DB = {
             base: [
-                { id: 'b1', name: 'Samba Rice', price: 50, img: 'https://i.ibb.co/SL4dHKL/samba-rice.png' },
-                { id: 'b2', name: 'Red Kekulu', price: 50, img: 'https://i.ibb.co/PzV4fTGZ/red-rice.png' }
+                { id: 'b1', name: 'Samba Rice', price: 50, img: 'https://i.ibb.co/tMX5kvnN/samba-rice.webp' },
+                { id: 'b2', name: 'Red Kekulu', price: 50, img: 'https://i.ibb.co/MyGg8YwF/red-rice.webp' }
             ],
             veg: [
-                { id: 'v1', name: 'Beetroot', price: 60, img: 'https://i.ibb.co/tPLNZKWf/beetroot.png' },
-                { id: 'v2', name: 'Jackfruit', price: 60, img: 'https://i.ibb.co/hRL4qDkD/jackfruit.png' },
-                { id: 'v3', name: 'Green Beans', price: 60, img: 'https://i.ibb.co/FqX55xYP/beans.png' },
-                { id: 'v4', name: 'Pumpkin', price: 60, img: 'https://i.ibb.co/bV85byk/pumpkin.png' }
+                { id: 'v1', name: 'Beetroot', price: 60, img: 'https://i.ibb.co/PG1RTb1f/beetroot.webp' },
+                { id: 'v2', name: 'Jackfruit', price: 60, img: 'https://i.ibb.co/Z65zkcLR/jackfruit.webp' },
+                { id: 'v3', name: 'Green Beans', price: 60, img: 'https://i.ibb.co/NdYgMCcL/beans.webp' },
+                { id: 'v4', name: 'Pumpkin', price: 60, img: 'https://i.ibb.co/wrpgsybk/pumpkin.webp' }
             ],
             proteins: [
-                { id: 'p1', name: 'Chicken', price: 150, img: 'https://i.ibb.co/p66B4pSj/chicken.png', tags: ['muscle'] },
-                { id: 'p2', name: 'Fish', price: 90, img: 'https://i.ibb.co/7dc3kC05/fish.png', tags: ['lean'] },
-                { id: 'p3', name: 'Boiled Eggs', price: 50, img: 'https://i.ibb.co/tTTTnkNL/boil-egg.png', tags: ['protein'] },
-                { id: 'p4', name: 'Fried Eggs', price: 50, img: 'https://i.ibb.co/27f6bHB1/fried-egg.png', tags: ['tasty'] }
+                { id: 'p1', name: 'Chicken', price: 150, img: 'https://i.ibb.co/tMHqJg8b/chicken.webp', tags: ['muscle'] },
+                { id: 'p2', name: 'Fish', price: 90, img: 'https://i.ibb.co/tpJnSfBm/fish.webp', tags: ['lean'] },
+                { id: 'p3', name: 'Boiled Eggs', price: 50, img: 'https://i.ibb.co/60V2CfB5/boil-egg.webp', tags: ['protein'] },
+                { id: 'p4', name: 'Fried Eggs', price: 50, img: 'https://i.ibb.co/8LqTDrmK/fried-egg.webp', tags: ['tasty'] }
             ],
             addons: [
-                { id: 'a1', name: 'Dhal', price: 30, img: 'https://i.ibb.co/tMQCzcbM/dhal.png' },
-                { id: 'a2', name: 'Devilled Potatoes', price: 50, img: 'https://i.ibb.co/RGM3YDd7/potato.png' },
-                { id: 'a3', name: 'Soya Meat', price: 40, img: 'https://i.ibb.co/p6n7tW8b/soya.png' },
-                { id: 'a4', name: 'Salad', price: 20, img: 'https://i.ibb.co/wr8b6jPG/salad.png' },
-                { id: 'a5', name: 'Papadam', price: 10, img: 'https://i.ibb.co/T5Bkscy/papadam.png' }
+                { id: 'a1', name: 'Dhal', price: 30, img: 'https://i.ibb.co/nq6jCz4w/dhal.webp' },
+                { id: 'a2', name: 'Devilled Potatoes', price: 50, img: 'https://i.ibb.co/KxBtpp9f/potato.webp' },
+                { id: 'a3', name: 'Soya Meat', price: 40, img: 'https://i.ibb.co/k2dSmCZT/soya.webp' },
+                { id: 'a4', name: 'Salad', price: 20, img: 'https://i.ibb.co/vnCsvG1/salad.webp' },
+                { id: 'a5', name: 'Papadam', price: 10, img: 'https://i.ibb.co/cK6GFC92/papadam.webp' }
             ]
         };
 
@@ -90,7 +90,7 @@
         
         const Logo = () => (
             <div className="relative w-40 h-40 rounded-full border-4 border-orange-500 overflow-hidden shadow-2xl bg-white flex-shrink-0 z-50">
-                <img src="https://i.ibb.co/WN91PFjS/logo.jpg" alt="Suwa Rasa" className="w-full h-full object-cover" />
+                <img src="https://i.ibb.co/Cs6hdGLR/logo.webp" alt="Suwa Rasa" className="w-full h-full object-cover" />
             </div>
         );
 
@@ -107,7 +107,7 @@
                         </div>
                         
                         <div className="hidden md:flex items-center space-x-8">
-                            <a href="index.html" className="text-gray-600 hover:text-orange-500 font-semibold transition duration-200">Home</a>
+                            <a href="index.html" onClick={(e) => { e.preventDefault(); window.scrollTo({top: 0, behavior: 'smooth'}); }} className="text-gray-600 hover:text-orange-500 font-semibold transition duration-200">Home</a>
                             <a href="#build" className="text-gray-600 hover:text-orange-500 font-semibold transition duration-200">Menu</a>
                             <a href="about.html" className="text-gray-600 hover:text-orange-500 font-semibold transition duration-200">About</a>
                             <a href="contact.html" className="text-gray-600 hover:text-orange-500 font-semibold transition duration-200">Contact</a>
